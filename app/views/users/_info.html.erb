@@ -8,11 +8,33 @@
 	  <th>introduction</th>
 	  <th><%= user.introduction %></th>
   </tr>
+  
   <tr>
    <th>follows</th>
    <th><%= link_to user.followings.count, user_followings_path(user) %> </th>
+  </tr>
+  <tr>
    <th>followers</th>
    <th><%= link_to user.followers.count, user_followers_path(user) %> </th>
+  </tr>
+  
+<tr>
+<th>
+  <% unless @user.id == current_user.id %>
+    <% if (current_user.following? @user) && (@user.following? current_user)  %>
+    <% if @isRoom == true %>
+      <p class="user-show-room"><a href="/rooms/<%= @roomId %>" class="btn btn-primary btn-lg">chatを始める</a>
+    <% else %>
+      <%= form_for @room do |f| %>
+        <%= fields_for @entry do |e| %>
+          <%= e.hidden_field :user_id, value: @user.id %>
+        <% end %>
+        <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat"%>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+</th>
   </tr>
    
 </table> 

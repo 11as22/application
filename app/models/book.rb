@@ -6,6 +6,8 @@ class Book < ApplicationRecord
   has_many :favorites,dependent: :destroy
   has_many :book_comments, dependent: :destroy
   
+  has_many :favorited_users, through: :favorites, source: :user
+  
   has_one_attached :profile_image
   
   def favorited_by?(user)
